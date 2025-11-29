@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,500,700,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-secondary text-text font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 active:scale-95;
+  }
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-red-800 shadow-lg shadow-red-900/20;
+  }
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary/5;
+  }
+  .input-field {
+    @apply w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all;
+  }
+  .card {
+    @apply bg-white rounded-xl p-6 shadow-soft border border-gray-100;
+  }
+}
