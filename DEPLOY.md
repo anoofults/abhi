@@ -65,7 +65,15 @@ scp -r -i <YOUR_KEY.pem> ./backend ./frontend ./deployment ubuntu@<YOUR_SERVER_I
     ```
 
 ## Step 5: Verify
-Open your browser and visit: `https://lifeflow.chishiya.xyz`
+Open your browser    Now visit `https://lifeflow.chishiya.xyz`. It should be secure! 🔒
+
+## Troubleshooting
+
+### Git Conflict Error
+If you see `error: Your local changes... would be overwritten by merge` when running `git pull`:
+1.  Stash your changes: `git stash`
+2.  Pull again: `git pull`
+3.  Rebuild: `cd frontend && npm install && npm run build`
 
 ## Step 6: Update Mobile App
 To make the mobile app work with the new server:
