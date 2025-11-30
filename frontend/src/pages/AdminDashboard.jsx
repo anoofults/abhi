@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import { Users, Droplet, Activity, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import { Users, Droplet, Activity, ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
 import config from '../config';
 
 const AdminDashboard = () => {
@@ -76,6 +76,29 @@ const AdminDashboard = () => {
             fetchData(); // Refresh data
         } catch (err) {
             console.error('Error updating status', err);
+        }
+    };
+
+    const handleDeleteUser = async (userId) => {
+        if (!window.confirm('Are you sure you want to delete this user?')) return;
+
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${config.API_URL}/users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (res.ok) {
+                alert('User deleted successfully');
+                fetchData();
+            } else {
+                alert('Failed to delete user');
+            }
+        } catch (err) {
+            console.error('Error deleting user', err);
         }
     };
 
@@ -209,6 +232,7 @@ const AdminDashboard = () => {
                                         <th className="pb-3 font-medium text-gray-500">Phone</th>
                                         <th className="pb-3 font-medium text-gray-500">Blood Type</th>
                                         <th className="pb-3 font-medium text-gray-500">Joined</th>
+                                        <th className="pb-3 font-medium text-gray-500">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
@@ -227,6 +251,15 @@ const AdminDashboard = () => {
                                             <td className="py-3 text-gray-600">{user.phone}</td>
                                             <td className="py-3 font-bold text-gray-800">{user.blood_type || '-'}</td>
                                             <td className="py-3 text-gray-500 text-sm">{new Date(user.created_at).toLocaleDateString()}</td>
+                                            <td className="py-3">
+                                                <Button
+                                                    variant="ghost"
+                                                    className="text-red-500 hover:bg-red-50 hover:text-red-700 p-2"
+                                                    onClick={() => handleDeleteUser(user.id)}
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

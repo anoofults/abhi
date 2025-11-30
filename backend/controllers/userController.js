@@ -32,3 +32,14 @@ exports.getAllUsers = async (req, res) => {
         res.status(500).json({ message: 'Server error fetching all users.' });
     }
 };
+
+exports.deleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await pool.query('DELETE FROM users WHERE id = $1', [id]);
+        res.status(200).json({ message: 'User deleted successfully.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error deleting user.' });
+    }
+};

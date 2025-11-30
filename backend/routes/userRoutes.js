@@ -6,5 +6,6 @@ const { verifyToken, isAdmin } = require('../middleware/authMiddleware');
 router.get('/profile', verifyToken, userController.getProfile);
 router.get('/count', [verifyToken, isAdmin], userController.getUserCount);
 router.get('/all', [verifyToken, isAdmin], userController.getAllUsers);
+router.delete('/:id', [verifyToken, isAdmin], userController.deleteUser);
 
 module.exports = router;
