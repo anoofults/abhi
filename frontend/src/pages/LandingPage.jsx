@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Button from '../components/Button';
 import Card from '../components/Card';
-import { Heart, Activity, Users, Calendar } from 'lucide-react';
+import { Heart, Activity, Users, Calendar, Download } from 'lucide-react';
 
 const LandingPage = () => {
     return (
@@ -34,6 +34,12 @@ const LandingPage = () => {
                                     Request Blood
                                 </Button>
                             </Link>
+                            <a href="/app-release.apk" download>
+                                <Button variant="secondary" className="w-full sm:w-auto text-lg px-8 py-4 flex items-center gap-2">
+                                    <Download className="w-5 h-5" />
+                                    Download App
+                                </Button>
+                            </a>
                         </div>
                     </div>
                 </div>
