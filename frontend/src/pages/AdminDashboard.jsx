@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { Users, Droplet, Activity, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import config from '../config';
 
 const AdminDashboard = () => {
     const [inventory, setInventory] = useState([]);
@@ -21,7 +22,7 @@ const AdminDashboard = () => {
             const headers = { 'Authorization': `Bearer ${token}` };
 
             // Fetch Inventory
-            const invRes = await fetch('http://localhost:5000/api/inventory', { headers });
+            const invRes = await fetch(`${config.API_URL}/inventory`, { headers });
             if (invRes.ok) {
                 const invData = await invRes.json();
                 setInventory(invData);
@@ -30,7 +31,7 @@ const AdminDashboard = () => {
             }
 
             // Fetch Requests
-            const reqRes = await fetch('http://localhost:5000/api/requests/all', { headers });
+            const reqRes = await fetch(`${config.API_URL}/requests/all`, { headers });
             if (reqRes.ok) {
                 const reqData = await reqRes.json();
                 setRequests(reqData);
@@ -39,14 +40,14 @@ const AdminDashboard = () => {
             }
 
             // Fetch User Count
-            const userRes = await fetch('http://localhost:5000/api/users/count', { headers });
+            const userRes = await fetch(`${config.API_URL}/users/count`, { headers });
             if (userRes.ok) {
                 const userData = await userRes.json();
                 setStats(prev => ({ ...prev, users: userData.count }));
             }
 
             // Fetch All Users
-            const allUsersRes = await fetch('http://localhost:5000/api/users/all', { headers });
+            const allUsersRes = await fetch(`${config.API_URL}/users/all`, { headers });
             if (allUsersRes.ok) {
                 const allUsersData = await allUsersRes.json();
                 setUsers(allUsersData);
@@ -64,7 +65,7 @@ const AdminDashboard = () => {
     const handleStatusUpdate = async (id, status) => {
         try {
             const token = localStorage.getItem('token');
-            await fetch(`http://localhost:5000/api/requests/${id}/status`, {
+            await fetch(`${config.API_URL}/requests/${id}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5000/api/donations', {
+            const res = await fetch(`${config.API_URL}/donations`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -217,8 +218,8 @@ const AdminDashboard = () => {
                                             <td className="py-3 text-gray-600">{user.email}</td>
                                             <td className="py-3">
                                                 <span className={`px-2 py-1 rounded text-xs font-semibold ${user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
-                                                        user.role === 'donor' ? 'bg-red-100 text-red-700' :
-                                                            'bg-blue-100 text-blue-700'
+                                                    user.role === 'donor' ? 'bg-red-100 text-red-700' :
+                                                        'bg-blue-100 text-blue-700'
                                                     }`}>
                                                     {user.role.toUpperCase()}
                                                 </span>

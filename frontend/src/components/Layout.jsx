@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Heart, LogOut, Bell } from 'lucide-react';
+import { Heart, Menu, X, Bell, LogOut } from 'lucide-react';
 import Button from './Button';
+import config from '../config';
 
 const Layout = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [showNotifications, setShowNotifications] = useState(false);
+    const [user, setUser] = useState(null);
     const [notifications, setNotifications] = useState([]);
+    const [showNotifications, setShowNotifications] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user'));
-    const token = localStorage.getItem('token');
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -19,13 +26,15 @@ const Layout = ({ children }) => {
     };
 
     const fetchNotifications = async () => {
-        if (!token) return;
         try {
-            const res = await fetch('http://localhost:5000/api/notifications', {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            const response = await fetch(`${config.API_URL}/notifications`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (res.ok) {
-                const data = await res.json();
+            if (response.ok) {
+                const data = await response.json();
                 setNotifications(data);
                 setUnreadCount(data.filter(n => !n.is_read).length);
             }
@@ -36,22 +45,24 @@ const Layout = ({ children }) => {
 
     const markAsRead = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
+            const token = localStorage.getItem('token');
+            await fetch(`${config.API_URL}/notifications/${id}/read`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             fetchNotifications();
         } catch (err) {
-            console.error('Error marking read', err);
+            console.error('Error marking notification as read', err);
         }
     };
 
     useEffect(() => {
-        fetchNotifications();
-        // Poll for notifications every 30 seconds
-        const interval = setInterval(fetchNotifications, 30000);
-        return () => clearInterval(interval);
-    }, []);
+        if (user) {
+            fetchNotifications();
+            const interval = setInterval(fetchNotifications, 30000); // Poll every 30s
+            return () => clearInterval(interval);
+        }
+    }, [user]);
 
     return (
         <div className="min-h-screen bg-secondary flex flex-col">

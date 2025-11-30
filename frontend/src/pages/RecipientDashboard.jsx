@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { Plus } from 'lucide-react';
+import config from '../config';
 
 const RecipientDashboard = () => {
     const [showRequestForm, setShowRequestForm] = useState(false);
@@ -13,7 +14,7 @@ const RecipientDashboard = () => {
     const fetchRequests = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/requests/my-requests', {
+            const response = await fetch(`${config.API_URL}/requests/my-requests`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -34,7 +35,7 @@ const RecipientDashboard = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/requests', {
+            const response = await fetch(`${config.API_URL}/requests`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

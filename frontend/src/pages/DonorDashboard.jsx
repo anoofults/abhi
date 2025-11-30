@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { User, Calendar, Droplet, Clock } from 'lucide-react';
+import config from '../config';
 
 const DonorDashboard = () => {
     const [user, setUser] = useState(null);
@@ -12,7 +13,7 @@ const DonorDashboard = () => {
         const fetchProfile = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch('http://localhost:5000/api/users/profile', {
+                const res = await fetch(`${config.API_URL}/users/profile`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -27,7 +28,7 @@ const DonorDashboard = () => {
         const fetchHistory = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch('http://localhost:5000/api/donations/my-history', {
+                const res = await fetch(`${config.API_URL}/donations/my-history`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
