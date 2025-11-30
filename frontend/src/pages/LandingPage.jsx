@@ -35,7 +35,7 @@ const LandingPage = () => {
                                 </Button>
                             </Link>
                             <a href="/app-release.apk" download>
-                                <Button variant="secondary" className="w-full sm:w-auto text-lg px-8 py-4 flex items-center gap-2">
+                                <Button variant="outline" className="w-full sm:w-auto text-lg px-8 py-4 flex items-center gap-2">
                                     <Download className="w-5 h-5" />
                                     Download App
                                 </Button>
