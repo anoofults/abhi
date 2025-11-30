@@ -50,6 +50,10 @@ if [ ! -f .env ]; then
     echo "JWT_SECRET=your_jwt_secret_key_change_this" >> .env
 fi
 
+# Run Database Setup (Create Tables)
+echo "🛠️ Setting up Database Schema..."
+node setup_db.js
+
 # Start/Restart Backend with PM2
 pm2 stop blood-backend || true
 pm2 start server.js --name blood-backend

@@ -10,15 +10,15 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'LifeFlow - Blood Donation',
+        name: 'LifeFlow',
         short_name: 'LifeFlow',
-        description: 'Connect donors and recipients to save lives.',
-        theme_color: '#C62828',
+        description: 'Blood Donation App',
+        theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'icon.png',
             sizes: '192x192',
             type: 'image/png'
           },

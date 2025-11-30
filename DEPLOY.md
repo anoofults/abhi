@@ -48,7 +48,7 @@ scp -r -i <YOUR_KEY.pem> ./backend ./frontend ./deployment ubuntu@<YOUR_SERVER_I
     Change `API_URL` to:
     ```javascript
     const config = {
-        API_URL: 'http://<YOUR_SERVER_PUBLIC_IP>/api',
+        API_URL: 'https://lifeflow.chishiya.xyz/api',
     };
     export default config;
     ```
@@ -65,10 +65,27 @@ scp -r -i <YOUR_KEY.pem> ./backend ./frontend ./deployment ubuntu@<YOUR_SERVER_I
     ```
 
 ## Step 5: Verify
-Open your browser and visit: `http://<YOUR_SERVER_PUBLIC_IP>`
+Open your browser and visit: `https://lifeflow.chishiya.xyz`
 
 ## Step 6: Update Mobile App
 To make the mobile app work with the new server:
 1.  Update `frontend/src/config.js` **on your local PC** to use the AWS Public IP.
 2.  Run `npm run update:mobile`.
 3.  Re-run the app on your phone.
+
+## Step 7: Configure Domain (Optional)
+If you are using a custom domain (like `lifeflow.chishiya.xyz`):
+
+1.  **Update Nginx Config**:
+    ```bash
+    sudo nano /etc/nginx/sites-available/blood-donation
+    ```
+    Change `server_name _;` to:
+    ```nginx
+    server_name lifeflow.chishiya.xyz;
+    ```
+
+2.  **Restart Nginx**:
+    ```bash
+    sudo systemctl restart nginx
+    ```
